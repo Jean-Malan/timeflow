@@ -1,0 +1,4 @@
+<p id="notice"><%= notice %></p>
+<br />
+
+<%= tag.div id: :boards, data: { lists: @listings.to_json(include: [:cards, :time_cards]), time_cards: @time_cards.to_json, tag_list: @tags.to_json } %>

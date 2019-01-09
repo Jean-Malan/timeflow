@@ -1,0 +1,19 @@
+<div style="display: flex; margin-left: 3%">
+  <% if @clients != nil %>
+    <% @clients.each do |client| %>
+        <div class="card" style="width: 10px;margin-left: 2%;">
+          <%= image_tag "#{client.profile_picture}", class:"card-img-top"  %>
+          <div class="card-body">
+            <h4 class="card-title"><%= client.name %></h4>
+            <p class="card-text"><%= client.address %></p>
+            <%= link_to "Show", client_path(client), class:"btn btn-default" %>
+            <%= link_to "Edit", edit_client_path(client), class:"btn btn-default" %>
+            <%= link_to "Delete", client, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
+          </div>
+        </div>
+      <br />
+    <% end %>
+  <% end %>
+</div>  
+
+
