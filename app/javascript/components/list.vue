@@ -4,7 +4,7 @@
     <strong> <p class="text-center">{{list.name}}</p></strong>
     <hr />
 
-    <draggable v-model="list.cards" :options="{group: 'cards'}" class='dragArea' @end="cardMoved" style="min-height:30px;">
+    <draggable v-model="list.cards" :options="{group: 'cards'}" class='dragArea' @end="cardMoved" style="min-height:30px; margin-left:20px !important;">
       <card v-for="(card, index) in list.cards" :card="card" :data-id="card.id"> </card>   
     </draggable>
     <div class="element1">

@@ -5,6 +5,7 @@ import TimerTable from '../timer/tabletimer.vue'
 import Card from '../components/card.vue'
 import Todotable from "../todo/todotable.vue"
 import Tagindex from "../tags/tagindex.vue"
+import Navbar from "../navbar.vue"
 
 
 window.store = {}
@@ -48,16 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+  var element = document.querySelector('#navbar')
+  if(element != undefined) {
+    const app = new Vue({
+      el: element,
+      template: "<Navbar/>",
+      components: { Navbar }
+    })
+  }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
   var element = document.querySelector('#timertable')
   if(element != undefined) {
     console.log(element.dataset.timecards)
     window.store.timecards = JSON.parse(element.dataset.timecards)
+    window.store.timeCardDates = JSON.parse(element.dataset.dates)
 
     const app = new Vue({
       el: element,
       data:  window.store,
       dataType: 'json',
-      template: "<TimerTable :original_time_cards='timecards'/>",
+      template: "<TimerTable :original_time_cards='timecards' :timeCardDates='timeCardDates' />",
       components: { TimerTable }
     })
   }

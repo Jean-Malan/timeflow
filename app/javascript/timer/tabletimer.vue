@@ -1,22 +1,30 @@
 <template>
-<table class="table" style="margin-top:150px; background-color:white; border-radius: 15px">
-  <thead>
-    <tr>
-      <th scope="col"><strong>Description</strong></th>
-      <th scope="col"><strong>Client</strong></th>
-      <th scope="col"><strong>Project</strong></th>
-      <th scope="col"><strong>Time</strong></th>
-    </tr>
-  </thead>
-  <tbody @click="printItems">
-    <tr v-for="(time_card, index) in time_cards">
-      <td scope="row"><input :value="time_card.description" @keyup="printDescription" :data-id="time_card.id"></td>
-      <td scope="row"><input :value="time_card.client.name ? time_card.client.name :  time_card.client_id" ></td>
-      <td scope="row"><input :value="time_card.card.name"></td>
-      <td scope="row"><input :value="time_card.total_time"></td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <div v-for="date in time_cards_dates">
+    <table class="table" style="background-color:white;margin-top:40px; background-color:#F9F9F9; border-radius: 15px; font-family: Roboto, Helvetica, sans-serif; margin-left: 20px;">
+      <thead>
+        <tr>
+          <th scope="col" style="font-weight: bold; font-size: 20px; ">{{date}}</th>
+        <tr>
+          <th scope="col"><strong>Description</strong></th>
+          <th scope="col"><strong>Client</strong></th>
+          <th scope="col"><strong>Project</strong></th>
+          <th scope="col"><strong>Date</strong></th>
+          <th scope="col"><strong>Time</strong></th>
+        </tr>
+      </thead>
+        <tbody @click="printItems">
+          <tr v-for="(time_card, index) in time_cards" v-if="time_card.created_at.substr(0,10) == date">
+            <td scope="row"><input :value="time_card.description" @keyup="printDescription" :data-id="time_card.id" style="background-color:#F9F9F9"></td>
+            <td scope="row"><input :value="time_card.client.name ? time_card.client.name :  time_card.client_id"  style="background-color:#F9F9F9"></td>
+            <td scope="row"><input :value="time_card.card.name"  style="background-color:#F9F9F9"></td>
+            <td scope="row"><input :value="(time_card.created_at).substr(0,10)"  style="background-color:#F9F9F9"></td>
+            <td scope="row"><input :value="time_card.total_time"  style="background-color:#F9F9F9"></td>
+          </tr>
+        </tbody>
+    </table>
+  </div>  
+</div>  
             
 
 </template>
@@ -27,6 +35,7 @@
     props: ["original_time_cards"],
     data: function() {
       return {
+        time_cards_dates: window.store.timeCardDates,
         time_cards: window.store.timecards,
         editing: false,
         timer: null,

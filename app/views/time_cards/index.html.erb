@@ -4,7 +4,7 @@
 <%= tag.div id: :timer, data: { timecards: @time_cards.to_json, clients: @clients.to_json, cards: @cards.to_json(include: :listing)} %>
 <br/>
 
-<%= tag.div id: :timertable, data: { timecards: @time_cards.to_json(include: [:card, :client])} %>
+<%= tag.div id: :timertable, data: { timecards: @time_cards.to_json(include: [:card, :client]), dates: @time_card_date.to_json} %>
 
 
 

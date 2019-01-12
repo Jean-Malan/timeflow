@@ -1,7 +1,7 @@
 // app/javascript/components/app.vue
 <template>
 <div class="container">
-    <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' @end="listMoved">
+    <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="margin-left:5%" @end="listMoved">
       <lists v-for="(list, index) in lists" :list="list"></lists>
 
       <div v-if="newList == false">

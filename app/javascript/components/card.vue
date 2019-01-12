@@ -1,59 +1,69 @@
 <template>
 <div>
-  <div @click="openModal" class="card card-body" :data-id="card.id" :parent-id="card.listing_id">
-    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style="width: 30%; height:5px;margin-bottom:10%;margin-left:0%; border-radius:10px"></div>
+  <div @click="openModal" class="card card-body" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;">
+    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style="width: 30%;height:5px;margin-bottom:10%;margin-left:0%; border-radius:10px;margin-top:10px !important;"></div>
     {{card.name}}
   </div>
   
   <div v-if="editing" class="modal-backdrop show" :data-id="card.id" :data-listing-id="card.listing_id"></div>
     <div v-if="editing" @click="closeModal" class="modal show" style="display: block">
-      <div class="card card-sm text-center" style="width: 50%;margin-left: 30%;margin-top: 15%;">
-        <ul class="nav nav-tabs" style="margin-left: 32%">
+      <div class="card card-sm text-center" style="width: 50%;margin-left: 30%;margin-top: 5%;">
+        <ul class="nav nav-tabs" style="margin-left: 25%;">
           <li class="nav-item" style="color: #8c8c8c">
-            <button style="color: #e6e6e6" @click="showTagModal" class="nav-link btn" href="#">Tags</button>
+            <button style="color: white" @click="showTagModal" class="btn btn-success" href="#">Tags</button>
           </li>
           <li class="nav-item">
-            <button style="color: #8c8c8c" class="nav-link" @click="showTime">TimeSheet</button>
+            <button style="color: white;background-color:#377382;" class="btn btn-info" @click="showTime">TimeSheet</button>
           </li>
           <li class="nav-item">
-            <button style="color: #8c8c8c" class="nav-link disabled" href="#">Disabled</button>
+            <button style="color: white" class="btn btn-danger" href="#">Disabled</button>
           </li>
         </ul>
-        <div class="card-body">
-          <div v-if="showTimeSheet==true">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Created At</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in timeCard" v-if="item.card_id == card.id">
-                    <th scope="row">{{item.id}}</th>
-                    <td>{{item.description}}</td>
-                    <td id="getTime">{{item.total_time}}</td>
-                    <td>{{item.created_at}}</td>
-                </tr>
-                <tr>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  <th scope="col">{{total}}</th>
-                  <th scope="col"></th>
-                </tr>
-              </tbody>
-            </table>
+        <div class="card-body" style="margin-left: -10% !important;margin-right: -30%;">
+          <div class="col-md-9">
+
+          <!-- Modal Timesheet -->
+            <div v-if="showTimeSheet==true">
+              <table class="table" style="margin-left:11%">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Created At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in timeCard" v-if="item.card_id == card.id">
+                      <th scope="row">{{item.id}}</th>
+                      <td>{{item.description}}</td>
+                      <td id="getTime">{{item.total_time}}</td>
+                      <td>{{item.created_at}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">{{total}}</th>
+                    <th scope="col"></th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div v-if="showDescription==true">
-            <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" @click="showTags=!showTags" class="drop grid-item" value="0" style="width: 80%; height:50px; color:white;margin-left:12%;font-weight:bold; font-size:13px;margin-bottom:20%; border-radius: 10px; margin-bottom: 10%;"></div>
-              <div v-if="showTags" style="display: flex" >  
+
+          <!-- Modal Desicription    -->
+          <div v-if="showTagBody==true">
+            <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id"  class="drop grid-item" value="0" style="width: 60%; height:50px; color:white;margin-left:12%;font-weight:bold; font-size:13px;margin-bottom:20%; border-radius: 10px; margin-bottom: 10%;"></div>
+              
+              <div v-if="showTags" style="display: flex; margin-right:22%;margin-left: 5%;" >  
                 <div v-for="tag in tags" :style="{'background-color': tag.colour}" @click="addTag" :data-id="tag.id" class="drop" value="0" style="width: 20%; height:55px; color:white;font-weight:bold;font-size:13px;margin-left:3%;border-radius:10px">
                   <p></p></div>
             </div>
           </div>
-            <button class="btn btn-primary" @click="editing=false" style="margin-top:50px">Close</button>
+          <div class="modal-footer" style="margin-right: 200px;">
+            <button class="btn btn-primary" v-if="showTagBody == true" @click="showTags=!showTags" style="margin-top:50px;">Change Tag</button>
+            <button class="btn btn-primary" @click="editing=false" style="margin-top:50px;">Close</button>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +88,7 @@
           color: '#194d33',
           cardId: '',
           parentId: '',
-          showDescription: true,
+          showTagBody: true,
           showTimeSheet: false,
           editing: false,
           name: this.card.name,
@@ -137,13 +147,13 @@
         showTime: function(){
          this.showTimeSheet = true
          this.showTags = false
-         this.showDescription = false
+         this.showTagBody = false
          console.log()
         },
         showTagModal: function(){
          this.showTimeSheet = false
-         this.showTags = true
-         this.showDescription = true
+         this.showTags = false
+         this.showTagBody = true
          console.log()
         },
         printId: function(event) {

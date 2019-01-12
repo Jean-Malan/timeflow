@@ -5,6 +5,12 @@ $gray: #bbbbbb;
   font-family: 'Roboto', sans-serif;
 }
 
+.mx-input-append {
+  display: none
+}
+input .mx-input {
+  background-color: aquamarine;
+}
 
 #drop .dropdown li {
   border-bottom: 1px solid rgba(112, 128, 144, 0.1)
@@ -48,8 +54,15 @@ input {
   background-color: none;
 }
 
+.mx-input {
+  background-color: #fafaf9 !important;
+  border: none !important;
+  margin-left: 10% !important;
+}
+
 .fa-play {
   color: white;
+  size: 112px;
   font-size: 30px !important;
 }
 
@@ -69,6 +82,10 @@ input {
   color: white;
   size: 80px;
   font-size: 20px !important;
+}
+
+.fa .fa-stopwatch {
+  color: white;
 }
 
 .fa-chevron-circle-down {
@@ -119,7 +136,7 @@ select {
 
 body {
   padding-left: 25px;
-  padding-right: 25px;
+  padding-right: 5px;
 }
 
 input[type="checkbox"]:checked ~ #sidebarMenu {
@@ -2393,7 +2410,7 @@ template {
   body {
     min-width: 992px !important; }
   .container {
-    min-width: 992px !important; }
+    max-width: 100% !important; }
   .navbar {
     display: none; }
   .badge {
@@ -2827,11 +2844,7 @@ pre {
   overflow-y: scroll; }
 
 .container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: 10px; }
+  width: 100%; }
   @media (min-width: 576px) {
     .container {
       max-width: 540px; } }
@@ -10035,7 +10048,7 @@ button:focus {
   .card .card-header-info:not(.card-header-icon):not(.card-header-text), .card.bg-info,
   .card.card-rotate.bg-info .front,
   .card.card-rotate.bg-info .back {
-    background-image: linear-gradient(15deg, #02a8b5 0%, #31ce77 100%); }
+    background-image: none }
   .card .card-header-success .card-icon,
   .card .card-header-success .card-text,
   .card .card-header-success:not(.card-header-icon):not(.card-header-text), .card.bg-success,
@@ -12519,8 +12532,7 @@ a.text-info:hover, a.text-info:focus {
   z-index: 2;
   width: 260px;
   background: #fff;
-  -webkit-box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2); }
+   }
   .sidebar .caret {
     display: inline-block;
     width: 0;

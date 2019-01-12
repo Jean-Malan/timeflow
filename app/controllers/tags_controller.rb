@@ -26,6 +26,7 @@ class TagsController < ApplicationController
   # POST /tags
   # POST /tags.json
   def create
+    binding.pry
     @tag = Tag.new(tag_params)
     @tag.user_id = current_user.id
 
