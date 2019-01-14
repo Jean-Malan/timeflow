@@ -12,19 +12,21 @@
     </div>
 
     <div class="col-md-9">
-    <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="margin-left:5%;margin-top: -1%;" @end="listMoved">
-        <lists :clientId="client_id" v-for="(list, index) in lists" :list="list"></lists>
-        <div v-if="newList == false">
-          <div @click="startEditing" class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.1);" > Add a list ... </div>
-        </div>
-        <div v-else>
-          <div class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.2);" >
-            <input v-model="message" ref="message" placeholder="List name" class="form-control" style="background-color: #ededed">
-            <button class="btn btn-danger" @click="createNewList">Save</button>
-            <a @click="newList=false"> Cancel </a>
-          </div>
-        </div>
-      </draggable>    
+      <div v-if="showClient == true">
+        <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="margin-left:5%;margin-top: -1%;" @end="listMoved">
+          <lists :clientId="clientId" v-for="(list, index) in lists" :list="list" v-if="list.client_id == clientId" :listID="list.id"></lists>
+            <div v-if="newList == false">
+              <div @click="startEditing" class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.1);" > Add a list ... </div>
+            </div>
+            <div v-else>
+              <div class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.2);" >
+                <input v-model="message" ref="message" placeholder="List name" class="form-control" style="background-color: #ededed">
+                <button class="btn btn-danger" @click="createNewList">Save</button>
+                <a @click="newList=false"> Cancel </a>
+              </div>
+            </div>
+        </draggable>    
+      </div>
     </div>
   </div>
 </div>
@@ -39,7 +41,7 @@
 
   export default {
 
-    props: ["original_time_cards", "tag_list", "original_lists", "cards", "client"],
+    props: ["original_time_cards", "tag_list", "original_lists", "cards"],
     components: { draggable, lists },
     data: function() {
       return {
@@ -47,7 +49,6 @@
         tags: this.tag_list,
         lists: this.original_lists,
         card_list: window.store.cards,
-        client_id: this.client,
         editing: false,
         message: "",
         newList: false,
@@ -56,7 +57,9 @@
         totalTime: (0 * 0),
         resetButton: false,
         title: "Countdown to rest time!",
-        edit: false
+        edit: false,
+        clientId: '',
+        showClient: false
       }
     },
     methods: {
@@ -64,7 +67,10 @@
         console.log(event)
       },
         printCards: function(event){
-            console.log(event)
+          console.log(event.target.dataset.client)
+          console.log(event)
+          this.clientId = event.target.dataset.client
+          this.showClient = true
         },
         updateValue: function(value){
           console.log(value.rgba)
@@ -75,22 +81,23 @@
         },
         listMoved: function(event){
           var data = new FormData
-          var listings = this.lists[event.newIndex].id
-          data.append("listing[position]", event.newIndex + 1)
+          console.log(event)
+          // var listings = this.lists[event.newIndex].id
+          // data.append("listing[position]", event.newIndex + 1)
 
-          Rails.ajax({
-            url: '/listings/'  +listings+'/move',
-            type: "PATCH",
-            data: data,
-            dataType: "json",
-          })
+          // Rails.ajax({
+          //   url: '/listings/'  +listings+'/move',
+          //   type: "PATCH",
+          //   data: data,
+          //   dataType: "json",
+          // })
         },
 
         createNewList: function(event) {
-          console.log()
+          console.log(this.clientId)
           var data  = new FormData;
           data.append("listing[name]", this.message)
-          data.append("listing[client_id]", parseInt(window.store.client))
+          data.append("listing[client_id]", this.clientId)
 
           Rails.ajax({
             url: "/listings",

@@ -4,6 +4,7 @@ import Timer from '../timer/timer.vue'
 import TimerTable from '../timer/tabletimer.vue'
 import Card from '../components/card.vue'
 import Todotable from "../todo/todotable.vue"
+import IndexToDo from "../todo/index_todo.vue"
 import Tagindex from "../tags/tagindex.vue"
 import Navbar from "../navbar.vue"
 
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var element = document.querySelector('#boards')
   if(element != undefined) {
     console.group(element.dataset.timeCards)
+    console.group(element.dataset.client)
     window.store.lists = JSON.parse(element.dataset.lists)
     window.store.client = JSON.parse(element.dataset.client)
     window.store.timeCards = JSON.parse(element.dataset.timeCards)
@@ -79,14 +81,46 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   var element = document.querySelector('#todo')
   if(element != undefined) {
+    console.log(element.dataset.client)
     window.store.cards = JSON.parse(element.dataset.cards)
+    window.store.lists = JSON.parse(element.dataset.lists)
+    window.store.client = JSON.parse(element.dataset.client)
+    window.store.timeCards = JSON.parse(element.dataset.timeCards)
+    window.store.tags = JSON.parse(element.dataset.tags)
+    // console.log("Client" + window.store.client)
+    console.log("Lists" + window.store.lists)
+    console.log("Cards" + window.store.cards)
+    console.log("TimeCards" + window.store.timeCards)
+    console.log("Tags" + window.store.tags)
 
     const app = new Vue({
       el: element,
       data:  window.store,
       dataType: 'json',
-      template: "<Todotable :cards='cards'/>",
+      template: "<Todotable :cards='cards' :client='client' :original_lists='lists' :original_time_cards='time_cards' :tag_list='tags' />",
       components: { Todotable }
+    })
+  }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  var element = document.querySelector('#indexToDo')
+  if(element != undefined) {
+    window.store.cards = JSON.parse(element.dataset.cards)
+    window.store.lists = JSON.parse(element.dataset.lists)
+    window.store.timeCards = JSON.parse(element.dataset.timeCards)
+    window.store.tags = JSON.parse(element.dataset.tags)
+    console.log("Lists" + window.store.lists)
+    console.log("Cards" + window.store.cards)
+    console.log("TimeCards" + window.store.timeCards)
+    console.log("Tags" + window.store.tags)
+
+    const app = new Vue({
+      el: element,
+      data:  window.store,
+      dataType: 'json',
+      template: "<IndexToDo :cards='cards' :original_lists='lists' :original_time_cards='time_cards' :tag_list='tags' />",
+      components: { IndexToDo }
     })
   }
 })

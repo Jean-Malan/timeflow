@@ -1,7 +1,7 @@
 <template>
 <div>
   <div @click="openModal" class="card card-body" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;">
-    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style="width: 30%;height:5px;margin-bottom:10%;margin-left:0%; border-radius:10px;margin-top:10px !important;"></div>
+    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style="width: 30%;margin-left:0%; border-radius:10px"></div>
     {{card.name}}
   </div>
   
@@ -168,6 +168,7 @@
           this.parentId = event.target.attributes[2].value
         },
         save: function(event) {
+          console.log(event)
           var listing_id = event.target.dataset.listId
           var card_id = this.card.id
           var data = new FormData

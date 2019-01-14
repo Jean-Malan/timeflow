@@ -1,11 +1,14 @@
 class ClientsController < ApplicationController
-  before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :set_client, only: [:show, :edit, :update, :destroy, :to_do]
   before_action :authenticate_user!
 
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all.where(user_id: current_user.id)
+    @cards = Card.all.where(user_id: current_user.id)
+    @tags = Tag.all.where(user_id: current_user.id)
+    @time_cards = TimeCard.all.where(user_id: current_user.id)
+    @listings = Listing.all.where(user_id: current_user.id)
   end
   
   # GET /clients/1
@@ -18,6 +21,9 @@ class ClientsController < ApplicationController
 
   def to_do
     @cards = Card.all.where(client_id: params[:id]).where(user_id: current_user.id)
+    @tags = Tag.all.where(user_id: current_user.id)
+    @time_cards = TimeCard.all.where(user_id: current_user.id)
+    @listings = Listing.all.where(client_id: @client.id).where(user_id: current_user.id)
   end
 
   # GET /clients/new

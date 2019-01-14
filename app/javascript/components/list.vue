@@ -15,8 +15,8 @@
         <i class="fa fa-trash pull-right" v-if="!editing" @click="deleteList"></i>
       </div>
     </div>
-    <div v-if="editing" class="card card-body card-dark">
-      <textarea  v-model="message" ref="message" class="form-control"></textarea>
+    <div v-if="editing" class="card card-body card-dark" style="margin-top: 10%;">
+      <textarea :listId="list.id" v-model="message" ref="message" class="form-control"></textarea>
       <span>
         <button @click="submitMessages" class="btn btn-primary" :data-index="list.id">Add Card</button>
         <a @click="editing=false">Cancel</a>
@@ -34,19 +34,23 @@ import card from 'components/card'
 export default {
   components: { draggable, card },
     name: 'lists',
-    props: ["list"],
+    props: ["list", "clientId"],
     data: function() {
        return {
+        client: this.clientId,
         editing: false,
         message: ""
       }
     },
     methods: {
       submitMessages: function(event) {
+        console.log(this.client)
         var data  = new FormData;
+        console.log(window.store.client)
         var listing_id = event.target.dataset.index 
         data.append("card[listing_id]", listing_id);
         data.append("card[name]",this.message);
+        data.append("card[tag_id]", 1);
         data.append("card[client_id]", parseInt(window.store.client))
 
         Rails.ajax({
@@ -76,7 +80,8 @@ export default {
 
         cardMoved: function(event){
           console.log(event)
-          var new_column = (event.to.parentElement.attributes[2].nodeValue)
+          console.log(event.explicitOriginalTarget.attributes[1].value)
+          var new_column = (event.to.firstElementChild.offsetParent.dataset.index)
           var card_id =  (event.clone.dataset.id)
           var new_position =  (event.newIndex + 1)
           console.log(event)
