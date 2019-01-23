@@ -59,7 +59,7 @@
     </div>
 
   <!-- Draggable Listing   -->
-    <div class="col-md-9" style="overflow-x: scroll">
+    <div class="col-md-12" style="overflow-x: scroll">
       <div v-if="showClient == true">
         <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="min-width: 1400px;margin-left:1%;margin-top: -1%;" @end="listMoved">
           <lists v-for="(list, index) in lists"  v-if="list.client_id == clientId" :list="list" :listId="list.id"  :clientId="selectedClientId" :cards="card_list" ></lists>

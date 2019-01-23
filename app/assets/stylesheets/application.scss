@@ -72,6 +72,21 @@ input {
   background-color: none;
 }
 
+.mx-calendar-content {
+    width: 424px !important;
+    height: 424px !important;
+}
+
+.mx-panel-date td, .mx-panel-date th {
+  font-size: 12px !important;
+  width: 52px !important;
+  height: 52px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-align: center !important;
+}
+
+
 .mx-input {
   background-color: rgb(218, 218, 218) !important;
   border: none !important;

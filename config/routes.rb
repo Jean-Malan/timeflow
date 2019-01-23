@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :cards do
     member do
       patch  :move
+      patch :edit
     end
   end
 end
