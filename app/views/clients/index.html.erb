@@ -1,3 +1,3 @@
 <p id="notice"><%= notice %></p>
 <br />
-<%= tag.div id: :indexToDo, data: { cards: @cards.to_json(include: :tag), time_cards: @time_cards.to_json, lists: @listings.to_json(include: [:cards, :time_cards]), tags: @tags.to_json } %>
+<%= tag.div id: :indexToDo, data: { clients: @clients.to_json, cards: @cards.to_json(include: [:tag, :client]), time_cards: @time_cards.to_json, lists: @listings.to_json(include: [:cards, :time_cards]), tags: @tags.to_json } %>

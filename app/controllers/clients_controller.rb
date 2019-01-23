@@ -9,6 +9,7 @@ class ClientsController < ApplicationController
     @tags = Tag.all.where(user_id: current_user.id)
     @time_cards = TimeCard.all.where(user_id: current_user.id)
     @listings = Listing.all.where(user_id: current_user.id)
+    @clients = Client.all.where(user_id: current_user.id)
   end
   
   # GET /clients/1

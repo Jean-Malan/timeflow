@@ -1,7 +1,7 @@
 <template>
 <div>
-  <div @click="openModal" class="card card-body" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;">
-    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style="width: 30%;margin-left:0%; border-radius:10px"></div>
+  <div @click="openModal" class="card card-body" :style="{'border-left-color': card.tag.colour}" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;margin-top: 10px;min-height: 120px;border-left-style: solid;border-left-width: 10px;">
+    <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style=";margin-left:0%; border-radius:10px"></div>
     {{card.name}}
   </div>
   
@@ -81,7 +81,7 @@
 
     export default {
       components: { dropdown },
-      props: ['card', 'tag_list'],
+      props: ['card', 'tag_list', "card_list"],
       data: function() {
         return {
           modal: '',
@@ -97,7 +97,8 @@
           showTags: false,
           timeCard: window.store.timeCards,
           total: '',
-          listingId: ''
+          listingId: '',
+          cardListing: this.card_list
         }
       },
       methods: {
@@ -126,8 +127,8 @@
           var card_id = this.cardId
           var listing_id = this.parentId
           var tag_id = event.target.attributes[1].value
-          var list_id = window.store.lists.findIndex((item) => item.id = listing_id)
-          var card = window.store.lists[list_id].cards.findIndex((item) => item.id == card_id)
+          // var list_id = window.store.lists.findIndex((item) => item.id = listing_id)
+          var card = card_list.findIndex((item) => item.id == card_id)
           var data = new FormData
           data.append('card[tag_id]', tag_id)
 
@@ -137,7 +138,7 @@
             data: data,
             dataType: "json",
             success: (data) => {
-              window.store.lists[list_id].cards[card].tag_id = tag_id
+              this.card_list[card].tag_id = tag_id
             }
           })
           // console.log(card)

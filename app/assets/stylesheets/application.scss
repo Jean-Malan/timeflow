@@ -5,6 +5,13 @@ $gray: #bbbbbb;
   font-family: 'Roboto', sans-serif;
 }
 
+.drop-down .options ul li a:hover{
+  background:#dbdbdb;
+  color:#fff;
+  transition:0.2s ease;
+  cursor: pointer;
+}
+
 .mx-input-append {
   display: none
 }
@@ -76,6 +83,18 @@ input {
   color: white;
   size: 112px;
   font-size: 30px !important;
+}
+
+.fa-arrow-right{
+  color: gray;
+  size: 80px;
+  font-size: 20px !important;
+}
+
+.fa-arrow-left{
+  color: gray;
+  size: 80px;
+  font-size: 20px !important;
 }
 
 .fa-clock {

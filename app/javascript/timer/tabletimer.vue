@@ -36,7 +36,7 @@
     data: function() {
       return {
         time_cards_dates: window.store.timeCardDates,
-        time_cards: window.store.timecards,
+        time_cards: this.original_time_cards,
         editing: false,
         timer: null,
         totalTime: (0 * 0),

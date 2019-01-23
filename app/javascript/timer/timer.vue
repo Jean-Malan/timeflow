@@ -134,7 +134,6 @@
         timepicker: false,
         startTime: '',
         endTime: '',
-        clientId: 0,
         clientName: "",
         projectId: "nil",
         projectName: "",

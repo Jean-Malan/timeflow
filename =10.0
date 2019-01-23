@@ -1,0 +1,28 @@
+yarn upgrade v1.9.4
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Rebuilding all packages...
+success Saved lockfile.
+success Saved 17 new dependencies.
+info Direct dependencies
+└─ vue-loader@14.2.2
+info All dependencies
+├─ big.js@5.2.2
+├─ consolidate@0.14.5
+├─ has-flag@3.0.0
+├─ is-arrayish@0.2.1
+├─ path-parse@1.0.6
+├─ postcss-load-config@1.2.0
+├─ postcss-load-options@1.2.0
+├─ postcss-load-plugins@2.3.0
+├─ prettier@1.15.3
+├─ pseudomap@1.0.2
+├─ require-from-string@1.2.1
+├─ resolve@1.9.0
+├─ sprintf-js@1.0.3
+├─ vue-hot-reload-api@2.3.1
+├─ vue-loader@14.2.2
+├─ vue-style-loader@4.1.2
+└─ vue-template-es2015-compiler@1.8.1
+Done in 31.09s.

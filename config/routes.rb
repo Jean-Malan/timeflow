@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :clients
   resources :time_cards
-  root to: 'listings#index'
+  root to: 'clients#index'
   get 'index/index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   
