@@ -1,29 +1,52 @@
 <template>
 <div>
-  <div @click="openModal" class="card card-body" :style="{'border-left-color': card.tag.colour}" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;margin-top: 10px;min-height: 120px;border-left-style: solid;border-left-width: 10px;">
+
+  <div @click="editing = !editing" class="card card-body" :style="{'border-left-color': card.tag.colour}" :data-id="card.id" :parent-id="card.listing_id" style="margin-top:10px;margin-top: 10px;min-height: 120px;border-left-style: solid;border-left-width: 10px;">
     <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style=";margin-left:0%; border-radius:10px"></div>
-    {{card.name}}
+    <div class="to-do-card-label">
+      <p style="position:overlay; margin-left: 50%;padding-top: 0%; font-size: 1em;width: 1000%;"><strong>Card Name: </strong> {{card.name}} <br> <strong>Client Name: </strong>{{card.client.name}}</p>
+      <p style="position:overlay; margin-left: 50%;font-size: 1em;width: 1000%;"><strong>Due Date: </strong> 1 February 2019</p>
+    </div>
   </div>
   
   <div v-if="editing" class="modal-backdrop show" :data-id="card.id" :data-listing-id="card.listing_id"></div>
     <div v-if="editing" @click="closeModal" class="modal show" style="display: block">
-      <div class="card card-sm text-center" style="width: 50%;margin-left: 30%;margin-top: 5%;">
-        <ul class="nav nav-tabs" style="margin-left: 25%;">
-          <li class="nav-item" style="color: #8c8c8c">
-            <button style="color: white" @click="showTagModal" class="btn btn-success" href="#">Tags</button>
-          </li>
-          <li class="nav-item">
-            <button style="color: white;background-color:#377382;" class="btn btn-info" @click="showTime">TimeSheet</button>
-          </li>
-          <li class="nav-item">
-            <button style="color: white" class="btn btn-danger" href="#">Disabled</button>
-          </li>
-        </ul>
-        <div class="card-body" style="margin-left: -10% !important;margin-right: -30%;">
-          <div class="col-md-9">
+      <div class="card card-sm text-center" style="width: 40%;margin-left: 60%;padding-top: 5%;height: 100%;">
+        <div class="card-body" style="">
+          <div>
+
 
           <!-- Modal Timesheet -->
-            <div v-if="showTimeSheet==true">
+            
+          <div style="margin-left: 0%;width: 100%;height: 45px;margin-top: -140px;margin-bottom: 10%;" :style="{'background-color': card.tag.colour}">Hi</div>
+
+          <form class="col-md">
+            <div class="form-group" style="display: flex;">
+              <label class="col-md-3" for="exampleFormControlInput1">Select Label</label>
+                  <div class="col-md-9" style="">
+                    <div class="drop-down">
+                      <div class="selected" style="padding-right: 10px;">
+                        <a @click="showList = true" style="margin-left: 3%;text-align:center;width: 450px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:rgb(218, 218, 218);"><span @click="showList = true"></span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
+                      </div>
+                      <div v-if="showList == true" class="options" style="position:relative;">
+                        <ul style="z-index: 10000;background:#e3e3e3 none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                          <li><a @click="showList = false" style="background:#e3e3e3, text-align:center;z-index=1000;width: 450px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
+                          <li v-for="tag in tags"><a @click="printTagId" style="text-align:center;z-index=1000;width: 450px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :style="{'background-color': tag.colour}" :data-id="tag.id"></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md" style="display:flex;">
+              <label class="col-md-3" for="exampleFormControlSelect1" style="">Select Date</label>
+                <date-picker v-model="time1"  class="col-md-6" style="height:45px;width: 450px;margin-left: -3%;" placeholder="Start Time" lang="en" type="date" format="YYYY-MM-DD" ></date-picker>
+            </div>
+          </form>
+
+
+            <div style="margin-top:10%">
               <table class="table" style="margin-left:11%">
                 <thead>
                   <tr>
@@ -51,19 +74,9 @@
             </div>
           </div>
 
-          <!-- Modal Desicription    -->
-          <div v-if="showTagBody==true">
-            <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id"  class="drop grid-item" value="0" style="width: 60%; height:50px; color:white;margin-left:12%;font-weight:bold; font-size:13px;margin-bottom:20%; border-radius: 10px; margin-bottom: 10%;"></div>
-              
-              <div v-if="showTags" style="display: flex; margin-right:22%;margin-left: 5%;" >  
-                <div v-for="tag in tags" :style="{'background-color': tag.colour}" @click="addTag" :data-id="tag.id" class="drop" value="0" style="width: 20%; height:55px; color:white;font-weight:bold;font-size:13px;margin-left:3%;border-radius:10px">
-                  <p></p></div>
-            </div>
-          </div>
-          <div class="modal-footer" style="margin-right: 200px;">
-            <button class="btn btn-primary" v-if="showTagBody == true" @click="showTags=!showTags" style="margin-top:50px;">Change Tag</button>
-            <button class="btn btn-primary" @click="editing=false" style="margin-top:50px;">Close</button>
-          </div>
+
+          <!-- Modal Tags    -->
+          <div @click="editing = false"class="btn btn-default" style="margin-top:5%">Close</div>
         </div>
       </div>
     </div>
@@ -75,15 +88,21 @@
 </template>
 
   <script>
+    import DatePicker from 'vue2-datepicker'
     import Swatches from 'vue-swatches'
     import "vue-swatches/dist/vue-swatches.min.css"
     import dropdown from 'vue-dropdowns';
 
+    
+
     export default {
-      components: { dropdown },
+      components: { dropdown, DatePicker },
       props: ['card', 'tag_list', "card_list"],
       data: function() {
         return {
+          showList: false,
+          time1: '',
+          time2: '',
           modal: '',
           color: '#194d33',
           cardId: '',
@@ -98,10 +117,37 @@
           timeCard: window.store.timeCards,
           total: '',
           listingId: '',
-          cardListing: this.card_list
+          cardListing: this.card_list,
+          panel1Form: {
+            openOn: "right"
+          }
         }
       },
       methods: {
+        printTagId (event) {
+          console.log(this.id)
+          console.log(event.target.dataset.id)
+          var card_id = this.id
+          var tag_id = event.target.dataset.id
+          var card = window.store.cards.findIndex((item) => item.id == card_id)
+
+          var data = new FormData
+          data.append('card[tag_id]', tag_id)
+
+           Rails.ajax({
+            url: '/cards/'+this.cardId,
+            type: "PATCH",
+            data: data,
+            dataType: "json",
+            success: (data) => {
+              window.store.cards[card].tag_id = tag_id
+              this.showList = false
+            }
+          })
+        },
+        somethingClicked: function () {
+          this.$children[0].slideout.toggle()
+        },
         getModal: function() {
           console.log(this.modal)
         },
@@ -112,7 +158,7 @@
           console.log(this.cardId)
 
           Rails.ajax({
-            url: '/cards/'+this.cardId,
+            url: '/cards/'+this.id,
             type: "PATCH",
             data: data,
             dataType: "json",
@@ -124,7 +170,7 @@
           })
         },
         addTag: function(event){
-          var card_id = this.cardId
+          var card_id = this.id
           var listing_id = this.parentId
           var tag_id = event.target.attributes[1].value
           // var list_id = window.store.lists.findIndex((item) => item.id = listing_id)
@@ -133,7 +179,7 @@
           data.append('card[tag_id]', tag_id)
 
           Rails.ajax({
-            url: '/cards/'+this.cardId,
+            url: '/card/'+this.id,
             type: "PATCH",
             data: data,
             dataType: "json",
@@ -257,6 +303,46 @@
   </script>
 
   <style scoped>
+    .slideout-menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 256px;
+    height: 100vh;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 0;
+    display: none;
+    background-color: #1D1F20;
+    color: white;
+  }
+
+  .slideout-menu-left {
+    left: 0;
+  }
+
+  .slideout-menu-right {
+    right: 0;
+  }
+
+  .slideout-panel {
+    background-color: #4B5;
+    color: white;
+    position: relative;
+    z-index: 1;
+    will-change: transform;
+    min-height: 100vh;
+  }
+
+  .slideout-open,
+  .slideout-open body,
+  .slideout-open .slideout-panel {
+    overflow: hidden;
+  }
+
+  .slideout-open .slideout-menu {
+    display: block;
+  }
 
 
   </style>

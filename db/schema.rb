@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_01_05_143112) do
     t.string "card_color"
     t.string "tag"
     t.integer "tag_id"
+    t.date "due_date"
     t.index ["listing_id"], name: "index_cards_on_listing_id"
   end
 

@@ -50,8 +50,8 @@
         <draggable v-model="card_list" :options="{group: card_list}">
           <div :data-client="card.client_id" :style="{'border-left-color': card.tag.colour}" style="min-width: 400px;margin-top: 5px;min-height: 120px;border-left-style: solid;border-left-width: 10px;background-color:white" v-for="card in  card_list"  v-if="card.tag_id == selectedTagId || card.client_id == selectedClientId" class="to-do-card" @click="printCards">
             <div class="to-do-card-label">
-              <p style="position:overlay; margin-left: 50%;padding-top: 20%; font-size: 1em;width: 1000%;"><strong>Card Name: </strong> {{card.name}} <br> <strong>Client Name: </strong>{{card.client.name}}</p>
-              <p style="position:overlay; margin-left: 50%;font-size: 1em;width: 1000%;"><strong>Due Date: </strong> 1 February 2019</p>
+              <p :data-client="card.client_id" @click="printCards" style="position:overlay; margin-left: 50%;padding-top: 20%; font-size: 1em;width: 1000%;"><strong>Card Name: </strong> {{card.name}} <br> <strong>Client Name: </strong>{{card.client.name}}</p>
+              <p  :data-client="card.client_id" @click="printCards" style="position:overlay; margin-left: 50%;font-size: 1em;width: 1000%;"><strong>Due Date: </strong> 1 February 2019</p>
             </div>
           </div>
         </draggable>

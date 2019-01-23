@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.store.lists = JSON.parse(element.dataset.lists)
     // window.store.client = JSON.parse(element.dataset.client)
     window.store.timeCards = JSON.parse(element.dataset.timeCards)
-    window.store.cards = JSON.parse(element.dataset.timeCards)
     window.store.tags = JSON.parse(element.dataset.tags)
     console.log(window.store.timeCards)
 

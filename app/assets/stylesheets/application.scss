@@ -12,11 +12,18 @@ $gray: #bbbbbb;
   cursor: pointer;
 }
 
+
 .mx-input-append {
   display: none
 }
 input .mx-input {
-  background-color: aquamarine;
+  background-color: rgb(218, 218, 218) !important;
+}
+.mx-input {
+  background-color: rgb(218, 218, 218) !important;
+}
+.mx-input-wrapper {
+
 }
 
 #drop .dropdown li {
@@ -25,6 +32,10 @@ input .mx-input {
 
 #drop .dropdown li:last-child {
   border-bottom: none;
+}
+
+.mx-datepicker {
+  height: 45px;
 }
 
 #drop .dropdown li a {
@@ -62,9 +73,11 @@ input {
 }
 
 .mx-input {
-  background-color: #fafaf9 !important;
+  background-color: rgb(218, 218, 218) !important;
   border: none !important;
   margin-left: 10% !important;
+  width: 450px !important;
+  height: 45px !important;
 }
 
 .fa-play {

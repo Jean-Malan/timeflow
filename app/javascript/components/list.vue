@@ -1,14 +1,14 @@
 <template>
 
-  <div class='col-md-3 align-top card card-body fix' style="box-shadow: none;background-color: rgba(0,0,0,0; overflow-x:scroll;min-height: 1000px; min-width: 500px" :data-index="list.id">
+  <div class='col-md-3 align-top card card-body fix' style="box-shadow: none;background-color: rgba(0,0,0,0);min-height: 1000px; min-width: 500px" :data-index="list.id">
     <div class="inline row" style="margin-top: -1%;">
       <strong> <p style="margin-top:-100%color:grey;font-size:18px">{{list.name}}</p></strong>
       <div v-if="list.cards.length <= 0"> <i style="margin-left: 350px;" class="fa fa-trash pull-right" v-if="!editing" @click="deleteList"></i></div>
     </div>  
     <hr />
 
-    <draggable v-model="card_list" :options="{group: 'cards'}" class='dragArea' @end="cardMoved" style="margin-left: 20px !important;overflow-y: scroll;max-height: 65%;">
-      <card v-for="(card, index) in card_list" v-if="card.listing_id == listing_id" :card="card" :data-id="card.id" :card_list="card_list" > </card>   
+    <draggable  :options="{group: 'cards'}" class='dragArea' @end="cardMoved" style="margin-left: 20px !important;max-height: 65%;">
+      <card v-for="(card, index) in cards" v-if="card.listing_id == listing_id" :card="card" :data-id="card.id" :card_list="card_list" > </card>   
     </draggable>
     <div class="element1">
       <i class="fa fa-plus" v-if="!editing" @click="startEditing"></i>
@@ -37,11 +37,11 @@ export default {
     props: ["list", "clientId", "cards", "listId"],
     data: function() {
        return {
+        card_list: window.store.cards,
         client: this.clientId,
         editing: false,
         message: "",
         listing_id: this.listId,
-        card_list: this.cards
       }
     },
     methods: {
