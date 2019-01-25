@@ -1,47 +1,46 @@
 <template>
-<div class="card bg-info">
+<div class="card white" style="margin-top: 2%;">
+
     <div class="card-body">
       <span>
         <table style="width: 100%">
           <tr>
             <thead>
-                <th class="col-md-3">
-                  <input ref="description" placeholder="Description" v-on:change="getDescription"  style="width: 1--%; height:40px; background-color: rgba(0,0,0,0);color: white; font-size:20px">
-                </th>
-
-              <th class="col-md-4">
-                <h4 class="card-title">
-                    <span>
-                      <select v-on:change="getClientId" id="target" ref="client" style="background-color: rgba(0,0,0,0); color: white; boder: none; margin-top: 5%;width: 65%; margin-right: -13px;">
-                        <option>Select a Client</option>
-                        <option v-for="(client,index) in clients" >
-                          <div :data-client-id="client.id">{{ client.name }} </div>
-                        </option>
-                      </select> 
-                      <i class="fa fa-plus"></i>
-                    </span>
-                </h4>
+              <th class="col-md-6">
+                <input ref="description" v-model="timeDescription" placeholder="Description" v-on:change="getDescription"  style="width: 100%; height:40px; background-color: rgba(0,0,0,0);color: #5e5e5e; font-size:20px">
               </th>
 
-              <th class="col-md-4">
-                <h4 class="card-title">
-                  <span>
-                    <select v-on:change="getProjectId" ref="project" style="background-color: rgba(0,0,0,0); color: white; boder: none; margin-top: 5%;width: 65%; margin-right: -13px;">
-                      <option>Select a Project</option>
-                      <option v-for="(card,index) in cards" v-if="card.client_id == clientId" ref="project">
-                        <p :data="card.id">{{ card.name }} {{ card.client_id }}( {{ card.listing.name}} ) </p>
-                      </option>
-                    </select>
-                    <i @click="editing=true" class="fa fa-plus"></i>
-                  </span>
-                </h4>
+              <th class="col-md-3">
+                <div class="drop-down">
+                  <div class="selected" style="padding-right: 10px;">
+                    <!-- <a @click="openDropDown" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color: #5e5e5e;font-family:arial;padding-top:13px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color: white;font-size: 22px;font-weight: lighter;cursor: pointer;"><span @click="openDropDown">{{dropdownValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a> -->
+                    <i @click="openDropDown" style="margin-right: 15%;display: -webkit-inline-box;float: right;" class="fa fa-address-card"><div style="margin-top: 2%; font-size: 21px;font-weight: lighter;margin-left: 10%;">{{dropdownValue}}</div></i>
+                  </div>
+                  <div v-if="showList == true" class="options" style="position:relative;">
+                    <ul  @click="openDropDown" style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                      <li @click="openDropDownClear"><a @click="openDropDown" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: #5e5e5e;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;">Select a client</a></li>
+                      <li v-for="client in clients" @click="openDropDown"><a @click="printClientId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: #5e5e5e;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"  :data-id="client.id">{{client.name}}</a></li>
+                    </ul>
+                  </div>
+                </div>
               </th>
 
+              <th class="col-md-3">
+                <div class="drop-down">
+                  <div class="selected" style="none">
+                     <i @click="showCardList" style="margin-right: 15%;display: -webkit-inline-box; float: left;" class="fa fa-tag"><div style=" margin-top: 2%;font-size: 21px;font-weight: lighter;margin-left: 10%;">{{dropdownCardValue}}</div></i>
+                    <!-- <a @click="showCardList" style="text-align:center;width: 250px;border-radius: 5px;font-weight: lighter;font-size:22px;text-decoration: none;color: #5e5e5e;font-family:arial;padding-top:13px;padding-left:1%;display: block;padding-right:20px;height: 50px;cursor:pointer; background-color:white;"><span @click="showCardList">{{dropdownCardValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px; cursor:pointer"></i></a> -->
+                  </div>
+                  <div v-if="showCard == true" class="options" style="position:relative;">
+                    <ul @click="showCardList" style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none; padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                      <li @click="showCardList"><a @click="showCardList" style="text-align:center;z-index=1000;width: 350px;padding: 5px;display: block;text-decoration: none;color: #5e5e5e;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
+                      <li v-for="card in cards" v-if="card.client_id == clientId" @click="showCardList"><a @click="getCardDetails" style="text-align:center;z-index=1000;width: 350px;padding: 5px;display: flex;text-decoration: none;color: #5e5e5e;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-cardId="card.id"><span :style="{'color': card.tag.colour}" style="font-size: 80px; margin-left:15%;margin-right: 10%">•</span>{{card.name}}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </th>
 
-
-
-              
-                <th class="col-md-3">
+                <th class="col-md-1">
                   <div class="timepicker" v-if="timepicker==true">
                     <span style="display: inline-flex;">
                       <date-picker v-model="time1" @input="printTime1" style= "margin-left: 10%" placeholder="Start Time" lang="en" type="datetime" format="YYYY-MM-DD hh:mm:ss a" :time-picker-options="{ start: '00:00', step: '00:05', end: '23:55' }"></date-picker>
@@ -50,24 +49,20 @@
                   </div>
                   <div class="clocktimer" v-if="clockTimer==true">
                     <span style="display: inline-flex;">
-                      <div v-if="showTimer==true" style="margin-top: 7%;">  
+                      <div style="margin-top: 7%;">  
                         <div class="start" v-if="showStart" @click="startTimer" style="margin-right:20px; margin-top:15%">
                           <i class='fa fa-play' data-feather="play" ></i>
                         </div>
-
                         <div class="pause" v-if="showPause" @click="pauseTimer" style="margin-right:20px;">
                           <i class='fa fa-pause' data-feather="pause"></i>
                         </div>
-
                         <div class="stop" v-if="timer" @click="stopTimer" style="margin-right:20px;">
                           <i class='fa fa-stop' data-feather="square"></i>
                         </div>
                       </div>
-
                       <span>
-                        <div style="margin-top: 7%"><h2>{{ minutes }}:{{ seconds }}</h2></div>
+                        <div style="margin-top: 7%;color: #5e5e5e"><h2>{{ minutes }}:{{ seconds }}</h2></div>
                       </span>
-
                     </span>
                   </div>
                 </th>
@@ -89,9 +84,7 @@
       </span>  
     </div>
 
-
-
-  <div v-if="editing" class="modal-backdrop show"></div>
+    <div v-if="editing" class="modal-backdrop show"></div>
     <div v-if="editing" class="modal show" style="display: block">
       <div class="card card-nav-tabs" style="width: 40%;margin-left: 35%;margin-top: 15%;">
         <div class="card-header card-header-warning">
@@ -124,8 +117,15 @@
     components: { DatePicker },
     data: function() {
       return {
+        timeDescription: '',
         value1: '',
+        dropdownValue: " ",
+        dropdownCardValue: " ",
+        showList: false,
+        showCard: false,
         newClientId: '',
+        cardId: '',
+        cardName: '',
         editing: false,
         showStart: true,
         showPause:  false,
@@ -135,7 +135,7 @@
         startTime: '',
         endTime: '',
         clientName: "",
-        projectId: "nil",
+        projectId: 0,
         projectName: "",
         time_cards: this.original_time_cards,
         clients: this.client_list,
@@ -163,6 +163,34 @@
       }
     },  
     methods: {
+      getCardDetails (event) {
+        this.showCard = false
+        this.projectId = event.target.dataset.cardid
+        this.projectName = event.target.text.replace('•','');
+        this.dropdownCardValue = this.projectName
+        console.log(this.projectName)
+        console.log(this.projectId)
+      },
+      showCardList () {
+        this.showCard = !this.showCard
+      },
+      openDropDownClear () {
+        this.showList = !this.showList
+        this.dropdownValue = ' '
+        this.clientName = ' '
+        this.clientId = 0
+      },
+      openDropDown () {
+        this.showList = !this.showList
+      },
+      printClientId (event) {
+        this.showList = !this.showList
+        this.dropdownValue = event.target.text
+        this.clientName = event.target.text
+        this.clientId = event.target.dataset.id
+        console.log(this.clientId)
+        console.log(this.clientName)
+      },
       printTime1 () {
         var time = this.time1.toString()
         time = time.substr(15,9)
@@ -236,8 +264,7 @@
         this.newClientId = client_id
       },
       getDescription: function(event){
-        this.description = event.target.value
-
+        this.description = this.timeDescription
         console.log(this.description)
       },
       getClientId: function(event){
@@ -276,14 +303,16 @@
         this.showStart = true
         this.showPause = false
         clearInterval(this.timer);
+        this.saveTimeCard()
         window.store.timeCardDates.push(this.formatDate(Date()))
         this.timer = null;
         this.resetButton = true;
-        this.saveTimeCard()
+        this.cardName = true;
+        this.resetButton = true;
         console.log(this.totalTime)
-        var description = this.$refs.description.value
-        var client = this.$refs.client.value
-        var project = this.$refs.project.value
+        var description = "this.timeDescription"
+        var client = this.clientName
+        var project = this.projectName
         console.log(description)
         console.log(client)
         console.log(project)
@@ -358,10 +387,19 @@
         data.append("time_card[client_id]", this.clientId)
         data.append("time_card[card_id]", this.projectId)
 
+       
         window.store.timecards.push({client_id: this.clientName, description: this.description, created_at: this.formatDate(Date()), card_id: this.projectName, total_time: this.formatTime(this.totalTime)})
         window.store.timecards[window.store.timecards.length - 1].client = {name: this.clientName }
         window.store.timecards[window.store.timecards.length - 1].card = {name: this.projectName }
-        
+
+        var card_id = window.store.cards.findIndex((i) => i.id == this.projectId)
+        var tag_id = window.store.cards[card_id].tag_id
+        var tagIndex = window.store.tags.findIndex(item => item.id == tag_id)
+        var tag = window.store.tags[tagIndex].colour
+
+        window.store.timecards[window.store.timecards.length - 1].card.tag =  window.store.tags.findIndex(item => item.id == tag_id)
+         window.store.timecards[window.store.timecards.length - 1].card.tag = {colour: this.projectName }
+
         Rails.ajax({
           url: '/time_cards',
           type: "POST",

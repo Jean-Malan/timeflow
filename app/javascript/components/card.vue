@@ -5,7 +5,7 @@
     <div v-for="tag in tags" :style="{'background-color': tag.colour}" v-if="tag.id == card.tag_id" class="drop" value="0" style=";margin-left:0%; border-radius:10px"></div>
     <div class="to-do-card-label">
       <p style="position:overlay; margin-left: 50%;padding-top: 0%; font-size: 1em;width: 1000%;"><strong>Card Name: </strong> {{card.name}} <br> <strong>Client Name: </strong>{{card.client.name}}</p>
-      <p style="position:overlay; margin-left: 50%;font-size: 1em;width: 1000%;"><strong>Due Date: </strong> 1 February 2019</p>
+      <p style="position:overlay; margin-left: 50%;font-size: 1em;width: 1000%;"><strong>Due Date: </strong> {{card.due_date}}</p>
     </div>
   </div>
   
@@ -18,18 +18,16 @@
 
           <!-- Modal Timesheet -->
             
-          <div style="margin-left: 0%;width: 100%;height: 45px;margin-top: -140px;margin-bottom: 10%;" :style="{'background-color': card.tag.colour}">Hi</div>
-
           <form class="col-md">
             <div class="form-group" style="display: flex;">
               <label class="col-md-3" style="font-size: 20px;color: #545454;margin-top: 1.5%;">Select Label</label>
                   <div class="col-md-9" style="">
                     <div class="drop-down">
                       <div class="selected" style="padding-right: 10px;">
-                        <a @click="showList = !showList" style="margin-left: 3%;text-align:center;width: 450px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:rgb(218, 218, 218);"><span @click="showList = true"></span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
+                        <a @click="showList = !showList" style="margin-left: 3%;text-align:center;width: 450px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px;" :style="{'background-color': card.tag.colour}"><span @click="showList = true"></span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
                       </div>
                       <div v-if="showList == true" class="options" style="position:relative;">
-                        <ul style="z-index: 10000;background:#e3e3e3 none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                        <ul style="z-index: 10000;background-color: white;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
                           <li><a @click="showList = false" style="background:#e3e3e3, text-align:center;z-index=1000;width: 450px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
                           <li v-for="tag in tags"><a @click="printTagId" style="text-align:center;z-index=1000;width: 425px;padding: 5px;display: block;text-decoration: none;color: white;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;margin-top: 2%;margin-bottom: 2%;margin-left: 2%;border-radius: 10px;" :style="{'background-color': tag.colour}" :data-id="tag.id">{{tag.name}}</a></li>
                         </ul>
@@ -41,7 +39,7 @@
 
             <div class="form-group col-md" style="display:flex;">
               <label class="col-md-3" for="exampleFormControlSelect1" style="font-size: 20px;color: #545454;margin-top: 1.5%;">Select Date</label>
-                <date-picker v-model="time1"  class="col-md-6" style="height:45px;width: 450px;margin-left: -3%;" placeholder="Start Time" lang="en" type="date" format="YYYY-MM-DD" ></date-picker>
+                <date-picker @change="printTime" v-model="time1"  class="col-md-6" style="height:45px;width: 450px;margin-left: -3%;" placeholder="Start Time" lang="en" type="date" format="YYYY-MM-DD" ></date-picker>
             </div>
           </form>
 
@@ -124,23 +122,39 @@
         }
       },
       methods: {
+        printTime () {
+          console.log(this.time1)
+          var cardIndex = window.store.cards.findIndex((item) => item.id == this.id)
+          window.store.cards[cardIndex].due_date = this.time1
+
+          var data = new FormData
+          data.append('card[due_date]', this.time1)
+           Rails.ajax({
+            url: '/cards/'+this.id,
+            type: "PATCH",
+            data: data,
+            dataType: "json",
+          })
+        },
         printTagId (event) {
           console.log(this.id)
           console.log(event.target.dataset.id)
           var card_id = this.id
           var tag_id = event.target.dataset.id
-          var card = window.store.cards.findIndex((item) => item.id == card_id)
+          var cardIndex = window.store.cards.findIndex((item) => item.id == card_id)
+          var tagIndex = window.store.tags.findIndex((item) => item.id == tag_id)
+          
+          window.store.cards[cardIndex].tag = window.store.tags[tagIndex]
 
           var data = new FormData
           data.append('card[tag_id]', tag_id)
-
            Rails.ajax({
-            url: '/cards/'+this.cardId,
+            url: '/cards/'+this.id,
             type: "PATCH",
             data: data,
             dataType: "json",
             success: (data) => {
-              window.store.cards[card].tag_id = tag_id
+              
               this.showList = false
             }
           })
@@ -303,6 +317,11 @@
   </script>
 
   <style scoped>
+
+  table {
+    margin: 0,0,0,0;
+    padding: 0,0,0,0;
+  }
     .slideout-menu {
     position: fixed;
     top: 0;

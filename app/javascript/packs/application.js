@@ -37,13 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.store.timecards = JSON.parse(element.dataset.timecards)
     window.store.clients = JSON.parse(element.dataset.clients)
     window.store.cards = JSON.parse(element.dataset.cards)
+    window.store.tags = JSON.parse(element.dataset.tags)
 
     console.log(JSON.parse(element.dataset.clients))
     const app = new Vue({
       el: element,
       data:  window.store,
       dataType: 'json',
-      template: "<Timer :client_list='clients' :card_list='cards' :original_time_cards='timecards'/>",
+      template: "<Timer :tags='tags' :client_list='clients' :card_list='cards' :original_time_cards='timecards'/>",
       components: { Timer }
     })
   }

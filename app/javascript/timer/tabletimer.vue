@@ -1,25 +1,25 @@
 <template>
 <div>
   <div v-for="date in time_cards_dates">
-    <table class="table" style="background-color:white;margin-top:40px; background-color:#F9F9F9; border-radius: 15px; font-family: Roboto, Helvetica, sans-serif; margin-left: 20px;">
+    <table class="table" style="background-color:white;margin-top:40px; border-radius: 15px; font-family: Roboto, Helvetica, sans-serif; margin-left: 20px;">
       <thead>
         <tr>
           <th scope="col" style="font-weight: bold; font-size: 20px; ">{{date}}</th>
         <tr>
-          <th scope="col"><strong>Description</strong></th>
-          <th scope="col"><strong>Client</strong></th>
-          <th scope="col"><strong>Project</strong></th>
-          <th scope="col"><strong>Date</strong></th>
-          <th scope="col"><strong>Time</strong></th>
+          <th style="font-weight:bold" scope="col" class="col-md-8"><strong>Description</strong></th>
+          <th style="font-weight:bold" scope="col"><strong>Client</strong></th>
+          <th style="font-weight:bold" scope="col"><strong>Project</strong></th>
+          <th style="font-weight:bold" scope="col"><strong>Date</strong></th>
+          <th style="font-weight:bold" scope="col"><strong>Time</strong></th>
         </tr>
       </thead>
         <tbody @click="printItems">
           <tr v-for="(time_card, index) in time_cards" v-if="time_card.created_at.substr(0,10) == date">
-            <td scope="row"><input :value="time_card.description" @keyup="printDescription" :data-id="time_card.id" style="background-color:#F9F9F9"></td>
-            <td scope="row"><input :value="time_card.client.name ? time_card.client.name :  time_card.client_id"  style="background-color:#F9F9F9"></td>
-            <td scope="row"><input :value="time_card.card.name"  style="background-color:#F9F9F9"></td>
-            <td scope="row"><input :value="(time_card.created_at).substr(0,10)"  style="background-color:#F9F9F9"></td>
-            <td scope="row"><input :value="time_card.total_time"  style="background-color:#F9F9F9"></td>
+            <td scope="row"><input :value="time_card.description" @keyup="printDescription" :data-id="time_card.id" style="background-color: rgba(0,0,0,0); color:#808080"></td>
+            <td scope="row"><input :value="time_card.client.name ? time_card.client.name :  time_card.client_id" :style="{'color': time_card.card.tag.colour}" style="background-color: rgba(0,0,0,0); color:#808080"></td>
+            <td scope="row"><input :value=" '•  ' + time_card.card.name"  :style="{'color': time_card.card.tag.colour}" style="background-color: rgba(0,0,0,0); color:#808080"></td>
+            <td scope="row"><input :value="(time_card.created_at).substr(0,10)"  style="background-color:rgba(0,0,0,0);color:#808080"></td>
+            <td scope="row"><input :value="time_card.total_time"  style="background-color: rgba(0,0,0,0);color:#808080"></td>
           </tr>
         </tbody>
     </table>

@@ -8,9 +8,10 @@ class TimeCardsController < ApplicationController
     @time_cards = TimeCard.all.where(user_id: current_user.id)
     @clients = Client.all.where(user_id: current_user.id)
     @cards = Card.all.where(user_id: current_user.id)
+    @tags = Tag.all.where(user_id: current_user.id)
     @time_card_date= []
     TimeCard.all.where(user_id: current_user.id).map{|x| @time_card_date.push(x.created_at.strftime("%Y-%m-%d")) }
-    @time_card_date = @time_card_date.uniq
+    @time_card_date = @time_card_date.uniq.reverse!
   end
 
   # GET /time_cards/1

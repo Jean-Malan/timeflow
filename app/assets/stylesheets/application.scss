@@ -12,6 +12,48 @@ $gray: #bbbbbb;
   cursor: pointer;
 }
 
+.dropdown{
+  margin-left: 0px !important;
+  height: 100% !important;
+  text-align: center !important;
+}
+
+.dropdown:hover {
+  background-color: white !important;
+}
+
+.dropdown-input:hover {
+  background-color: white !important;
+}
+
+
+.dropdown .dropdown-content {
+
+  position: absolute;
+  background-color: #fff;
+  min-width: 400px !important;
+  max-width: 400px !important;
+  z-index: 1;
+  font-size: 22px !important;
+
+}
+
+.dropdown .dropdown-input {
+  text-align: center !important;
+  background: #fff;
+  cursor: pointer;
+  border: 0px !important;
+  border-radius: 0px !important;
+  color: #333;
+  display: block;
+  font-size: .8em;
+  padding: 6px;
+  min-width: 450px !important;
+  max-width: 450px !important;
+  min-height: 100%;
+
+}
+
 
 .mx-input-append {
   display: none
@@ -94,21 +136,32 @@ input {
   width: 450px !important;
   height: 45px !important;
 }
+.fa-address-card {
+  color: grey;
+  size: 112px;
+  font-size: 30px !important;
+}
+
+.fa-tag {
+  color: grey;
+  size: 112px;
+  font-size: 30px !important;
+}
 
 .fa-play {
-  color: white;
+  color: #87d19a;
   size: 112px;
   font-size: 30px !important;
 }
 
 .fa-stop {
-  color: white;
+  color: #87d19a;
   size: 112px;
   font-size: 30px !important;
 }
 
 .fa-pause {
-  color: white;
+  color:#87d19a;
   size: 112px;
   font-size: 30px !important;
 }

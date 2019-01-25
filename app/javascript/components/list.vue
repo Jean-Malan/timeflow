@@ -8,7 +8,7 @@
     <hr />
 
     <draggable  :options="{group: 'cards'}" class='dragArea' @end="cardMoved" style="margin-left: 20px !important;max-height: 65%;">
-      <card v-for="(card, index) in cards" v-if="card.listing_id == listing_id" :card="card" :data-id="card.id" :card_list="card_list" > </card>   
+      <card v-for="(card, index) in card_list" v-if="card.listing_id == listing_id" :card="card" :data-id="card.id" :card_list="card_list" > </card>   
     </draggable>
     <div class="element1">
       <i class="fa fa-plus" v-if="!editing" @click="startEditing"></i>
@@ -37,7 +37,7 @@ export default {
     props: ["list", "clientId", "cards", "listId"],
     data: function() {
        return {
-        card_list: window.store.cards,
+        card_list: this.cards,
         client: this.clientId,
         editing: false,
         message: "",
@@ -51,6 +51,7 @@ export default {
         // console.log(window.store.client)
         console.log(event.target.dataset.index)
         this.listing_id = event.target.dataset.index 
+
         data.append("card[listing_id]", this.listing_id);
         data.append("card[name]",this.message);
         data.append("card[tag_id]", 1);
@@ -62,8 +63,17 @@ export default {
           data: data,
           dataType: "json",
           success: (data) => {
-            const index = window.store.lists.findIndex(item => item.id == this.listing_id);
-            window.store.lists[index].cards.push(data)
+            // const index = window.store.lists.findIndex((item) => item.id == this.listing_id);
+            console.log(data)
+
+            window.store.cards.push()
+
+            var clientIndex =  window.store.clients.findIndex((i) => i.id == this.clientId)
+            var cardIndex = window.store.cards.length - 1
+            window.store.cards[cardIndex].client = window.store.clients[clientIndex]
+            window.store.cards[cardIndex].tag = window.store.tags[0]
+            window.store.cards[cardIndex].name = this.message
+            window.store.cards[cardIndex].listing_id = this.listing_id
             this.message = ""
           }
         })

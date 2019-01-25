@@ -6096,6 +6096,10 @@ vue-select@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.5.1.tgz#9886e7123150a52dc8dbfe3202d0387268835aaa"
 
+vue-simple-search-dropdown@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-simple-search-dropdown/-/vue-simple-search-dropdown-1.0.0.tgz#bd93249b4436717b1d1005faf98462a460a51f5e"
+
 vue-slideout@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/vue-slideout/-/vue-slideout-1.8.0.tgz#2ee7eeb6ae4241218bd013d27147b05fc1075fbc"

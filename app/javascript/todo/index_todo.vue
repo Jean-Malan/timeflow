@@ -1,45 +1,57 @@
 <template>
-<div>
+<div>     
+  <div class="card white" style="margin-top: 2%;">
+    <div class="card-body" style="display:inline-flex">
+      <table class="table" style="border:none; background-color:white;margin-top:0px;margin-bottom:0px; border-radius: 15px; font-family: Roboto, Helvetica, sans-serif; margin-left: 20px;">
 
-  <!-- Filter Menu   -->
-  <div class="card row" style="width: 70%;height: 50px;margin-left: 15%;">
-    <div class="row" style="margin-top:0px;margin-bottom:3px;margin-left: 17%;">
-      <div class="drop-down">
-        <div class="selected" style="padding-right: 10px;">
-          <a @click="showClientList" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;"><span @click="showClientList">{{dropdownValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
-        </div>
-        <div v-if="showList == true" class="options" style="position:relative;">
-          <ul style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
-            <li><a @click="clearClientId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
-            <li v-for="client in client_list"><a @click="printClientName" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-id="client.id">{{client.name}}</a></li>
-          </ul>
-        </div>
-      </div>
-
-        <div class="drop-down">
-          <div class="selected" style="none">
-            <a @click="showTagList" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;"><span @click="showTagList">{{dropdownTagValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px; cursor:pointer"></i></a>
+        <th class="col-md-4" style="border: none">
+          <div class="drop-down">
+            <div class="selected" style="padding-right: 10px;">
+              <Dropdown
+                  :options="client_list"
+                  v-on:selected="printClientId"
+                  :data="client_list.id"
+                  :disabled="false"
+                  placeholder="Select a client"
+                  style="border:none;height:80px;width:300px;font-size:22px;">
+              </Dropdown>
+            </div> 
           </div>
-          <div v-if="showTag == true" class="options" style="position:relative;">
-            <ul style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none; padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
-              <li><a @click="clearTagId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
-              <li v-for="tag in tags"><a @click="printTagId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: flex;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-tag="tag.id"><span :style="{'color': tag.colour}" style="font-size: 80px; margin-left:22%;margin-right: 10%">•</span>{{tag.name}}</a></li>
-            </ul>
-          </div>
-        </div>
+        </th> 
 
-      <div class="drop-down">
-        <div class="selected" style="none">
-          <a @click="showClientList" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color:black;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;"><span @click="showClientList">{{dropdownValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
-        </div>
-        <div v-if="showList == 'ss'" class="options" style="position:relative;">
-          <ul style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
-            <li v-for="client in client_list"><a @click="" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-id="client.id">{{client.name}}</a></li>
-          </ul>
-        </div>
-      </div> 
+        <th class="col-md-4" style="border: none">
+          <div class="drop-down">
+            <div class="selected" style="none">
+              <a @click="showTagList" style="text-align:center;width: 250px;border-radius: 5px;color: #a1a1a1;font-weight: lighter;font-size: 18px;text-decoration: none;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;cursor:pointer">{{dropdownTagValue}}</a>
+            </div>
+            <div v-if="showTag == true" class="options" style="position:relative;">
+              <ul style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none; padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                <li><a @click="clearTagId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: #a1a1a1;font-size: 22px;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
+                <li v-for="tag in tags"><a @click="printTagId" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: flex;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-tag="tag.id"><span :style="{'color': tag.colour}" style="font-size: 80px; margin-left:22%;margin-right: 10%">•</span>{{tag.name}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </th> 
+
+        <th class="col-md-4" style="border: none">
+          <div class="drop-down">
+            <div class="selected" style="none">
+              <a @click="showClientList" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color: #a1a1a1;font-weight: lighter;font-size: 18px;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;"><span @click="showClientList">{{dropdownValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>
+            </div>
+            <div v-if="showList == tre" class="options" style="position:relative;">
+              <ul style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none;  padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
+                <li v-for="client in client_list"><a @click="" style="text-align:center;z-index=1000;width: 250px;padding: 5px;display: block;text-decoration: none;color: gray;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;" :data-id="client.id">{{client.name}}</a></li>
+              </ul>
+            </div>
+          </div> 
+        </th> 
+
+
+      </table>
     </div>
   </div>
+  <!-- Filter Menu   -->
+ 
 
   <!-- Card List   -->
   <div class="row">
@@ -59,15 +71,15 @@
     </div>
 
   <!-- Draggable Listing   -->
-    <div class="col-md-12" style="overflow-x: scroll">
+    <div class="col-md-11" style="overflow-x: scroll">
       <div v-if="showClient == true">
-        <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="min-width: 1400px;margin-left:1%;margin-top: -1%;" @end="listMoved">
+        <draggable v-model="lists" :options="{group: 'lists'}" class='row dragArea' style="min-width: 1400px;margin-left:1%;margin-top: -0.5%;" @end="listMoved">
           <lists v-for="(list, index) in lists"  v-if="list.client_id == clientId" :list="list" :listId="list.id"  :clientId="selectedClientId" :cards="card_list" ></lists>
-            <div v-if="newList == false">
-              <div @click="startEditing" class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.1);margin-top: 10%;" > Add a list ... </div>
+            <div v-if="newList == false" style="width: 500px;padding-right: 20%;margin-top: 4%;">
+              <div @click="startEditing" class='col-md-3 card card-body fix' style="min-width: 350px;background-color: rgba(0, 0, 0, 0.1);margin-top: 28%;margin-right: 10%;" > Add a list ... </div>
             </div>
             <div v-else>
-              <div class='col-md-3 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.2);" >
+              <div class='col-md-1 card card-body fix' style="width: 1050px; background-color:rgba(0, 0, 0, 0.2);" >
                 <input v-model="message" ref="message" placeholder="List name" class="form-control" style="background-color: #ededed">
                 <button class="btn btn-danger" @click="createNewList">Save</button>
                 <a @click="newList=false"> Cancel </a>
@@ -85,13 +97,15 @@
 <script>
   import draggable from 'vuedraggable'
   import lists from '../components/list'
+  import Dropdown from 'vue-simple-search-dropdown';
 
   export default {
 
     props: ["original_time_cards", "tag_list", "original_lists", "cards", "clients"],
-    components: { draggable, lists },
+    components: { draggable, lists, Dropdown },
     data: function() {
       return {
+        clientFilter: '',
         color: '#194d33',
         tags: this.tag_list,
         lists: this.original_lists,
@@ -146,13 +160,11 @@
         this.showList = !this.showList
       },
       printClientId: function(event) {
-        var chosenClient = event.target.selectedIndex
-        var chosenClientId = event.srcElement[chosenClient].firstChild.attributes['data-client-id'].value
-        this.selectedClientId = parseInt(chosenClientId)
-        this.clientName = event.target.value
-        this.showClient = true
-        console.log(this.clientName)
+        console.log(event.id)
+        this.selectedClientId = event.id
+        this.clientName = event.name
         console.log(this.selectedClientId)
+        console.log(this.clientName)
       },
       getColor: function(event){
         console.log(event)
@@ -209,64 +221,32 @@
   </script>
 
   <style>
-*{
-  margin:0;
-  padding:0;
+
+.dropdown .dropdown-content {
+
+    position: absolute;
+    background-color: #fff;
+    min-width: 400px;
+    max-width: 400px;
+    z-index: 1;
+    font-size: 22px;
+
 }
 
-.drop-down{
-  position:absolute;
-  left:42%;
-  top:40%;
-}
+.dropdown .dropdown-input {
 
-.drop-down .selected a{
-  background:#fff no-repeat scroll right center;
-  display:block; 
-  padding-right:20px; 
-  border:1px solid #d7d7d7; 
-  width:150px;
-  border-radius:2px;
-  text-decoration:none;
-  color:#3179ac;
-  font-family: arial, lobster;
-}
+    background: #fff;
+    cursor: pointer;
+    border: 0px !important;
+    border-radius: 0px !important;
+    color: #333;
+    display: block;
+    font-size: .8em;
+    padding: 6px;
+    min-width: 450px;
+    max-width: 250px;
+    min-height: 100%;
 
-.drop-down .selected a span{
-  cursor:pointer; 
-  display:block; 
-  padding:5px;
-}
-
-.drop-down .option{
-  position:relative; 
-}
-
-.drop-down .options ul{
-  background:#fff none repeat scroll 0 0;
-  list-style:none; 
-  padding:0px 0px; 
-  position:absolute; 
-  left:0px; 
-  top:32px; 
-  width:auto; 
-  min-width:170px;
-  border:1px solid #d7d7d7;
-}
-
-
-.drop-down .options ul li a{
-  padding:5px; 
-  display:block;
-  text-decoration:none;
-  color:#3179ac;
-  font-family: arial, lobster;
-}
-
-.drop-down .options ul li a:hover{
-  background:#3179ac;
-  color:#fff;
-  transition:0.2s ease;
 }
 
   </style>
