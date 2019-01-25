@@ -11,6 +11,22 @@ $gray: #bbbbbb;
   transition:0.2s ease;
   cursor: pointer;
 }
+.float1 {
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float1 {
+	margin-top:22px;
+}
 
 .dropdown{
   margin-left: 0px !important;
@@ -52,6 +68,15 @@ $gray: #bbbbbb;
   max-width: 450px !important;
   min-height: 100%;
 
+}
+
+.dropdown .dropdown-content .dropdown-item {
+  color: rgb(38, 38, 38) !important;
+  line-height: 1.5em !important;
+  padding: 8px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
 }
 
 

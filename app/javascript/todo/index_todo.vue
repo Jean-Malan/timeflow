@@ -1,10 +1,10 @@
 <template>
 <div>     
-  <div class="card white" style="margin-top: 2%;">
+  <div class="card white" style="margin-top: 2%;width: 90%;margin-left: 5%;">
     <div class="card-body" style="display:inline-flex">
       <table class="table" style="border:none; background-color:white;margin-top:0px;margin-bottom:0px; border-radius: 15px; font-family: Roboto, Helvetica, sans-serif; margin-left: 20px;">
 
-        <th class="col-md-4" style="border: none">
+        <th class="col-md-4" style="border: none;width:33%">
           <div class="drop-down">
             <div class="selected" style="padding-right: 10px;">
               <Dropdown
@@ -19,7 +19,7 @@
           </div>
         </th> 
 
-        <th class="col-md-4" style="border: none">
+        <th class="col-md-4" style="border: none;width:33%">
           <div class="drop-down">
             <div class="selected" style="none">
               <a @click="showTagList" style="text-align:center;width: 250px;border-radius: 5px;color: #a1a1a1;font-weight: lighter;font-size: 18px;text-decoration: none;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;cursor:pointer">{{dropdownTagValue}}</a>
@@ -33,7 +33,7 @@
           </div>
         </th> 
 
-        <th class="col-md-4" style="border: none">
+        <th class="col-md-4" style="border: none;width:33%">
           <div class="drop-down">
             <div class="selected" style="none">
               <a @click="showClientList" style="text-align:center;width: 250px;border-radius: 5px;text-decoration: none;color: #a1a1a1;font-weight: lighter;font-size: 18px;font-family:arial;padding-top:7px;padding-left:1%;display: block;padding-right:20px;height: 50px; background-color:white;"><span @click="showClientList">{{dropdownValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px;"></i></a>

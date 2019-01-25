@@ -1,5 +1,5 @@
 <template>
-<div class="card white" style="margin-top: 2%;">
+<div class="card white" style="margin-top: 2%;width: 90%;margin-left: 5%;">
 
     <div class="card-body">
       <span>
@@ -27,10 +27,9 @@
 
               <th class="col-md-3">
                 <div class="drop-down">
-                  <div class="selected" style="none">
+                  <!-- <div class="selected" style="none"> -->
                      <i @click="showCardList" style="margin-right: 15%;display: -webkit-inline-box; float: left;" class="fa fa-tag"><div style=" margin-top: 2%;font-size: 21px;font-weight: lighter;margin-left: 10%;">{{dropdownCardValue}}</div></i>
-                    <!-- <a @click="showCardList" style="text-align:center;width: 250px;border-radius: 5px;font-weight: lighter;font-size:22px;text-decoration: none;color: #5e5e5e;font-family:arial;padding-top:13px;padding-left:1%;display: block;padding-right:20px;height: 50px;cursor:pointer; background-color:white;"><span @click="showCardList">{{dropdownCardValue}}</span><i class="fa fa-caret-down pull-right" style="margin-top: 5px; cursor:pointer"></i></a> -->
-                  </div>
+                  <!-- </div> -->
                   <div v-if="showCard == true" class="options" style="position:relative;">
                     <ul @click="showCardList" style="z-index: 10000;background:#fff none repeat scroll 0 0;list-style:none; padding:0px 0px;position:absolute; left:0px; top:0px; width:auto; min-width:170px;border:1px solid #d7d7d7;">
                       <li @click="showCardList"><a @click="showCardList" style="text-align:center;z-index=1000;width: 350px;padding: 5px;display: block;text-decoration: none;color: #5e5e5e;padding-left: 0%;font-family: arial;height: 40px;padding-top: 10px;"></a></li>
